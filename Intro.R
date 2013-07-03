@@ -1,5 +1,5 @@
 # ---------------------------------------------------------
-# Title: An implementation of the Grammar of Graphics
+# Title: An introduction to R
 # R version:  3.0.0 (2013-04-03) -- "Masked Marvel"
 # R Studio version:  0.97.336
 # OS: Mac OS X 10.7.5
