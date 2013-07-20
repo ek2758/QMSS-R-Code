@@ -15,6 +15,9 @@
 # Notice how I didn't write "help YOU get a job"; instead, "help get YOU a job."
 # But, of course, it always helps if you know someone. :P
 
+# And this guy:
+# http://ethanfosse.blogspot.com/2012/05/im-converted-to-r-full-time.html
+
 # Before we get started, I have one piece of advice in two words: search engine.
 # You will be Googling/Binging/Duck-duck-going for how to accomplish the many things you will need to do in R. 
 # You'll be amazed by the number of people who have previously asked your same question.
@@ -74,6 +77,7 @@ install.packages("foreign") # Installs "foreign" package
 # Click "Install" and your Packages list will refresh to include the newly installed package. 
 
 # Load the "foreign" package for use in your current session. 
+# You need to load packages in each R session; that is, each time R is fired up.
 library(foreign)
 require(foreign) # Another method of loading a package into a current session. 
 
@@ -95,7 +99,7 @@ require(foreign) # Another method of loading a package into a current session.
 # The file should be called "gss2010merged_r2b.dta"
 
 # The following commands accomplish the same task: that is, convert STATA file into R file called gss2010
-gss2010 <- read.dta(file="gss2010merged_r2b.dta") # Takes a minute...
+gss2010 <- read.dta(file = "gss2010merged_r2b.dta") # Takes a minute...
 gss2010 <- read.dta("gss2010merged_r2b.dta")
 
 # Don't worry about the warning messages for now -- one of many seemingly inscrutable R warning messages you'll see. 
@@ -114,8 +118,8 @@ class(gss2010$health) # Factor, i.e., categorical variable
 class(gss2010$year) # Integer
 
 # You can also reference variable types by their index numbers
-class(gss2010[,73]) # the health variable
-class(gss2010[,1]) # the year variable
+class(gss2010[, 73]) # the health variable
+class(gss2010[, 1]) # the year variable
 
 # See first 6 lines of the health variable
 head(gss2010$health)
@@ -127,10 +131,10 @@ tail(gss2010$health)
 gss2010$health[7]
 
 # See 7th line
-gss2010[7,]
+gss2010[7, ]
 
 # See 7th column
-gss2010[,7]
+gss2010[ ,7]
 
 # Save this as an R Workspace in your working directory
 # This saves all objects in the Workspace!
