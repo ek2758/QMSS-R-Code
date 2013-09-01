@@ -8,6 +8,7 @@
 # Description: G4013 Lecture 2
 # ---------------------------------------------------------
 
+
 # Navigate to your project folder - I call this one G4013
 getwd()
 # Check out the Files tab and verify the contenst include the file "gss2010.RData"
@@ -84,5 +85,5 @@ ddply(gss2010, .(region), summarise,
 table(gss2010$happy, gss2010$health)
 ddply(gss2010, .(happy, health), summarise, N = length(id))
 
-# Save the table
+# Save the workspace
 save.image("gss2010.RData")

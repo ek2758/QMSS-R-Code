@@ -11,6 +11,10 @@
 # Load the previously saved workspace with GSS 2010 file
 load("gss2010.RData")
 
+# ----------------------
+# How to recod variables
+# ----------------------
+
 # There are several ways to recode in R. Here are a few:
 summary(gss2010$age) # It's always a good idea to check the distribution before coding a variable
 
@@ -45,5 +49,5 @@ gss2010$age[which(gss2010$age <= 18 | gss2010$age == 30)] # Bracketing the index
 table(gss2010$age[which(gss2010$age <= 18 | gss2010$age == 30)]) # Tabulate the list
 # Cool, amirite?
 
-# Save the table
+# Save the workspace
 save.image("gss2010.RData")

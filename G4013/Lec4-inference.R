@@ -1,5 +1,5 @@
 # ---------------------------------------------------------
-# Title: Statistical inference
+# Title: Statistical Inference
 # R version:  3.0.0 (2013-04-03) -- "Masked Marvel"
 # R Studio version:  0.97.336
 # OS: Mac OS X 10.7.5
@@ -11,7 +11,9 @@
 # Load the previously saved workspace with GSS 2010 file
 load("gss2010.RData")
 
-# Looking at internet hours -------------------------------
+# -------------------------
+# Looking at internet hours
+# -------------------------
 
 # Create a new variable
 gss2010$totalhr <- gss2010$wwwhr + gss2010$emailhr
@@ -23,7 +25,9 @@ t.test(gss2010$totalhr)
 # Look at the 99% confidence interval
 t.test(gss2010$totalhr, conf.level = 0.99)
 
-# Politicians example -------------------------------
+# -------------------
+# Politicians example
+# -------------------
 table(gss2010$polgreed)
 gss2010$newpolgreed <- recode(gss2010$polgreed, 
                               "agree" <- c("strongly agree","agree"),
@@ -40,7 +44,9 @@ t.test(gss2010$newpolgreed) # This will give you an error; b/c it's a nominal va
 # Turn it into its numeric label
 t.test(as.numeric(gss2010$newpolgreed))
 
-# Working hours and race example -------------------------------
+# ------------------------------
+# Working hours and race example
+# ------------------------------
 gss2010$white <- ifelse(gss2010$race == "white", 1, 0)
 
 # T-test of significance of two groups and working hours
@@ -48,3 +54,6 @@ t.test(hrs1 ~ white, data = gss2010) # difference in means for both groups not s
 
 # Women and men self-described as kind people -------------------------------
 # Proportions are are tested in the same way as above
+
+# Save the workspace
+save.image("gss2010.RData")
