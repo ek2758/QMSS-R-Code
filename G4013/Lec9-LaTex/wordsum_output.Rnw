@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\begin{document}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l c c }
+\hline
+                               & Interaction & Log \\
+\hline
+(Intercept)                    & $2.17^{***}$ & $6.97^{***}$  \\
+                               & $(0.21)$     & $(0.05)$      \\
+Education                      & $0.21^{***}$ &               \\
+                               & $(0.02)$     &               \\
+Spouse's education             & $0.04^{*}$   &               \\
+                               & $(0.02)$     &               \\
+Education * Spouse's education & $0.00^{***}$ &               \\
+                               & $(0.00)$     &               \\
+Log, tv hours                  &              & $-0.63^{***}$ \\
+                               &              & $(0.03)$      \\
+Work status                    &              & $-0.34^{***}$ \\
+                               &              & $(0.04)$      \\
+\hline
+R$^2$                          & 0.23         & 0.05          \\
+Adj. R$^2$                     & 0.23         & 0.05          \\
+Num. obs.                      & 14199        & 14876         \\
+\hline
+\multicolumn{3}{l}{\scriptsize{\textsuperscript{***}$p<0.001$, 
+  \textsuperscript{**}$p<0.01$, 
+  \textsuperscript{*}$p<0.05$}}
+\end{tabular}
+\caption{WordSum Score Regressions}
+\label{table:coefficients}
+\end{center}
+\end{table}
+
+
+\end{document}
