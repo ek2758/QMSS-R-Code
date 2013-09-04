@@ -100,26 +100,63 @@ cronbach.alpha(cbind(gss.cs$educ, gss.cs$realinc, gss.cs$prestg80), standardized
 # -----------------------------
 # Principal components analysis
 # -----------------------------
+# Separately save variables for PCA analysis
+# Listwise deletion
+conserv <- subset(gss.cs, select = c("realinc","pornlaw","attend","grass","taxrich","conarmy"))
+conserv <- na.omit(conserv)
 
 # Social conservative variables?
-gss.cs$npornlaw <- factor(gss.cs$pornlaw, levels=rev(levels(gss.cs$pornlaw)))
+conserv$npornlaw <- factor(conserv$pornlaw, levels=rev(levels(conserv$pornlaw)))
 
-table(gss.cs$npornlaw)
-table(gss.cs$attend)
-table(gss.cs$grass)
+table(conserv$npornlaw)
+table(conserv$attend)
+table(conserv$grass)
 
 # Neo-conservative variables?
-gss.cs$ntaxrich <- factor(gss.cs$taxrich, levels=rev(levels(gss.cs$taxrich)))
-gss.cs$nconarmy <- factor(gss.cs$conarmy, levels=rev(levels(gss.cs$conarmy)))
+conserv$ntaxrich <- factor(conserv$taxrich, levels=rev(levels(conserv$taxrich)))
+conserv$nconarmy <- factor(conserv$conarmy, levels=rev(levels(conserv$conarmy)))
 
-table(gss.cs$ntaxrich)
-table(gss.cs$nconarmy)
+table(conserv$ntaxrich)
+table(conserv$nconarmy)
 
 # Principal components analysis of variables of interest
 con.pca <- prcomp(~ as.numeric(npornlaw) + as.numeric(attend) + as.numeric(grass) + as.numeric(ntaxrich)
-                  + as.numeric(nconarmy), data = gss.cs, na.action = na.omit, scale = T)
+                  + as.numeric(nconarmy), data = conserv, scale = T)
 summary(con.pca)
 
 # Factor loadings from PCA
 con.pca$rotation # eigenvectors
 
+# Run names on the prcomp object to see what it holds
+names(con.pca)
+con.pca$sdev # square root of the eigenvalues
+con.pca$rotation # factor loadings
+con.pca$x # principal components
+
+summary(con.pca$x)
+cor(con.pca$x)
+
+# Add principal components to dataframe for ease of running regression
+conserv$soccon <- con.pca$x[,1]
+conserv$neocon <- con.pca$x[,2]
+
+# Predict income based on social/neo-conservatism
+con.lm <- lm(realinc ~ soccon + neocon, data = conserv)
+summary(con.lm)
+
+# ------------------------------------
+# Compare results with factor analysis
+# ------------------------------------
+con.factor <- factanal(~ as.numeric(npornlaw) + as.numeric(attend) + as.numeric(grass) + as.numeric(ntaxrich)
+         + as.numeric(nconarmy), data = conserv, factor = 2, scores = "regression")
+
+con.factor$loadings
+
+conserv$soccon.f <- con.factor$scores[,1]
+conserv$neocon.f <- con.factor$scores[,2]
+
+con2.lm <- lm(realinc ~ soccon.f + neocon.f, data = conserv)
+summary(con2.lm)
+
+# Save the workspace
+save.image("gssCS.RData")
