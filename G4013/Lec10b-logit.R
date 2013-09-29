@@ -14,7 +14,6 @@ library(ggplot2)
 library(lmtest)
 library(foreach)
 library(plyr)
-library(ltm)
 
 # Load the saved workspace with cross-sectional GSS file
 load("gssCS.RData")
