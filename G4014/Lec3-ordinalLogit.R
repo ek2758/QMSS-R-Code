@@ -3,7 +3,6 @@
 # R version:  3.0.0 (2013-04-03) -- "Masked Marvel"
 # R Studio version:  0.97.336
 # OS: Mac OS X 10.8.5
-# OS: Mac OS X 10.7.5
 # Author: Eurry Kim <ek2758@columbia.edu>
 # Maintainer: Eurry Kim <ek2758@columbia.edu>
 # Description: G4014 Lecture 3
