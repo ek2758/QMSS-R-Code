@@ -10,6 +10,7 @@
 
 library(MASS)
 library(memisc)
+library(VGAM)
 
 load("gssCS.RData")
 
@@ -18,8 +19,7 @@ load("gssCS.RData")
 # ---------------------------------------------------------
 
 # Reverse natchld variable
-gss.cs$childcare <- factor(gss.cs$natchld, levels=c("too much","about right","too little"))
-gss.cs$childcare <- factor(gss.cs$natchld, levels=rev(levels(gss.cs$natchld)))
+gss.cs$childcare <- factor(gss.cs$natchld, levels=c("too much","about right","too little"), ordered = T)
 
 table(gss.cs$childcare)
 
@@ -39,6 +39,21 @@ summary(child.polr)
 
 # Odds ratios
 exp(coef(child.polr))
+
+# We can do the same logit with another function that allows explicit proportional odds assumption
+child.vglm <- vglm(childcare ~ childs + age + married + lnrealinc + as.numeric(polviews), 
+                   data = gss.cs, family = propodds)
+summary(child.vglm)
+
+# Or you can relax the proportional odds assumption
+child2.vglm <- vglm(childcare ~ childs + age + married + lnrealinc + as.numeric(polviews), 
+                   data = gss.cs, family = cumulative(reverse=T))
+summary(child2.vglm)
+
+# Test the proportional odds assumption
+pchisq(deviance(child.vglm) - deviance(child2.vglm),
+       df = df.residual(child.vglm) - df.residual(child2.vglm), lower.tail = F)
+# Yes, reject. Proportional odds assumption is violated. 
 
 # --------------------------------------------------------------
 # Logit to predict log-odds of being in higher vs lower category
@@ -114,16 +129,8 @@ s[, 3] <- s[, 3] - s[, 3]
 # Plot the coefficients to visualize whether they are relatively similar across cutpoints
 plot(s, which = 1:3, pch = 1:3, xlab = "logit", main = " ", xlim = range(s[, 3:4], finite=T))
 
+pchisq(deviance(fit.po)-deviance(fit.npo),
+       df=df.residual(fit.po)-df.residual(fit.npo),lower.tail=FALSE)
+
 # Save the workspace
 save.image("gssCS.RData")
-# Collapse childcare categories
-summary(gss.cs$childcare)
-gss.cs$childcare.rightLess <- recode(gss.cs$childcare,
-                                     1 <- "too much",
-                                     0 <- c("about right","too little"))
-table(gss.cs$childcare.rightLess)
-
-# Logit to predict log-odds of being in higher category
-child.glm <- glm(childcare.rightLess ~ childs + age + married + lnrealinc + as.numeric(polviews),
-                 data = gss.cs, family = binomial(link = logit))
-summary(child.glm)
